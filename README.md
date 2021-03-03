@@ -14,7 +14,7 @@ This module replaces the functionality of the [`ddrive-daemon`](https://github.c
 Also, @dhub/ddrive will only run in the foreground -- we switched to this model to keep things easy to use and debug. If you'd like to run it persistently (such that this service and dHub auto-start on reboot), you can set this up using your system's process manager (like systemd).
 
 ### Installation
-Before installing the dDrive service, you'll want to first install [`dhub`](https://github.com/org/hyperspace). Once dHub is installed, run:
+Before installing the dDrive service, you'll want to first install [`dhub`](https://github.com/dwebprotocol/dhub). Once dHub is installed, run:
 ```
 npm i @dhub/ddrive -g
 ```
@@ -44,14 +44,14 @@ const client = new DDriveServiceClient()
 #### `const client = new DDriveServiceClient(opts = {})`
 Create a new client for interacting with the dDrive service.
 
-If you don't provide any options, options will be loaded from a configuration file inside of the `~/.hyperspace` directory and a dHub client will be created automatically.
+If you don't provide any options, options will be loaded from a configuration file inside of the ` ~/.dhub` directory and a dHub client will be created automatically.
 
 Options include:
 ```js
 {
   mnt: string, // The FUSE mountpoint
   key: Buffer, // Your root drive key.
-  client: HyperspaceClient // A hyperspace client.
+  client: DHubClient // A dhub client.
 }
 ```
 
@@ -167,7 +167,7 @@ Options include:
 ```
 
 ### CLI Commands
-The `hyperdrive` CLI tool includes a handful of subcommands that wrap the API methods described above. Running `ddrive help` will give more complete usage info:
+The `ddrive` CLI tool includes a handful of subcommands that wrap the API methods described above. Running `ddrive help` will give more complete usage info:
 ```
 $ ./bin/run/run help
 A dHub service that for managing dDrives over FUSE.
