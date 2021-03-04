@@ -1,10 +1,10 @@
 {
-  "name": "@hyperspace/hyperdrive",
-  "version": "1.0.10",
-  "description": "A Hyperspace service that for managing Hyperdrives over FUSE.",
+  "name": "@dhub/ddrive",
+  "version": "1.0.0",
+  "description": "A CLI for managing dDrives over FUSE.",
   "main": "index.js",
   "bin": {
-    "hyperdrive": "./bin/run/run"
+    "ddrive": "./bin/run/run"
   },
   "files": [
     "index.js",
@@ -26,11 +26,11 @@
     "cli-progress": "^3.8.2",
     "codecs": "^2.1.0",
     "globby": "^11.0.1",
-    "hypercore-crypto": "^2.1.0",
-    "hyperdrive": "^10.15.1",
-    "hyperdrive-network-heuristics": "^1.0.2",
-    "hyperdrive-schemas": "^2.0.0",
-    "hyperspace": "^3.6.0",
+    "@ddatabase/crypto": "^1.0.0",
+    "ddrive": "^5.0.0",
+    "@ddrive/network-heuristics": "^1.0.0",
+    "@ddrive/schemas": "^1.0.0",
+    "dhub": "^1.0.0",
     "is-options": "^1.0.1",
     "mirror-folder": "^3.1.0",
     "nanoresource-promise": "^1.2.2",
@@ -39,7 +39,7 @@
     "tape": "^5.0.1"
   },
   "optionalDependencies": {
-    "hyperdrive-fuse": "^1.2.15",
+    "@ddrive/fuse": "^1.0.0",
     "fuse-native": "^2.2.6"
   },
   "devDependencies": {
@@ -51,22 +51,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hyperspace-org/hyperdrive.git"
+    "url": "https://github.com/dwebprotocol/ddrive-service.git"
   },
   "keywords": [
-    "hyperspace",
-    "hyperdrive",
+    "dhub",
+    "ddrive",
     "fuse"
   ],
-  "author": "Andrew Osheroff <andrewosh@gmail.com>",
+  "author": "PeepsLabs <peepslabs@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hyperspace-org/hyperdrive/issues"
+    "url": "https://github.com/dwebprotocol/ddrive-service/issues"
   },
-  "homepage": "https://github.com/hyperspace-org/hyperdrive#readme",
+  "homepage": "https://dwebx.org",
   "oclif": {
     "commands": "./bin/commands",
-    "bin": "hyperdrive",
+    "bin": "ddrive",
     "plugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-autocomplete"
