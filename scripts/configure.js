@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const hyperfuse = require('hyperdrive-fuse')
+const dwebfuse = require('@ddrive/fuse')
 
-hyperfuse.configure(err => {
+dwebfuse.configure(err => {
   if (err) return process.exit(1)
   return process.exit(0)
 })

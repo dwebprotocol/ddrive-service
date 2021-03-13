@@ -1,13 +1,13 @@
 const p = require('path').posix
 const ora = require('ora')
-const hypercoreCrypto = require('hypercore-crypto')
+const ddatabaseCrypto = require('@ddatabase/crypto')
 const { flags } = require('@oclif/command')
 
-const HyperdriveServiceCommand = require('../../lib/cli')
+const DDriveServiceCommand = require('../../lib/cli')
 
-class SeedCommand extends HyperdriveServiceCommand {
+class SeedCommand extends DDriveServiceCommand {
   static usage = 'seed [path]'
-  static description = 'Stop seeding a Hyperdrive on the network.'
+  static description = 'Stop seeding a DDrive on the network.'
   static args = [
     {
       name: 'path',
@@ -17,7 +17,7 @@ class SeedCommand extends HyperdriveServiceCommand {
     }
   ]
   static flags = {
-    key: HyperdriveServiceCommand.keyFlag({
+    key: DDriveServiceCommand.keyFlag({
       description: 'The drive key to unseed (will override the provided path).'
     }),
     remember: flags.boolean({
@@ -32,7 +32,7 @@ class SeedCommand extends HyperdriveServiceCommand {
     await super.run()
     if (args.path) args.path = this.parsePath(this.client.mnt, args.path)
 
-    const spinner = ora('Removing the Hyperdrive from the network (might take a while to unannounce)...')
+    const spinner = ora('Removing the DDrive from the network (might take a while to unannounce)...')
     spinner.start()
 
     const config = {
@@ -41,7 +41,7 @@ class SeedCommand extends HyperdriveServiceCommand {
       remember: flags.remember
     }
 
-    const discoveryKey = flags.key ? hypercoreCrypto.discoveryKey(flags.key) : null
+    const discoveryKey = flags.key ? ddatabaseCrypto.discoveryKey(flags.key) : null
     try {
       if (args.path) await this.infoForPath(args.path, flags.root)
       await this.client.unseed(args.path, {

@@ -3,11 +3,11 @@ const p = require('path')
 const cliProgress = require('cli-progress')
 const { flags } = require('@oclif/command')
 
-const HyperdriveServiceCommand = require('../../lib/cli')
+const DDriveServiceCommand = require('../../lib/cli')
 
-class ImportCommand extends HyperdriveServiceCommand {
+class ImportCommand extends DDriveServiceCommand {
   static usage = 'import [dir] [key]'
-  static description = 'Import a directory into a Hyperdrive.'
+  static description = 'Import a directory into a DDrive.'
   static args = [
     {
       name: 'dir',
@@ -18,14 +18,14 @@ class ImportCommand extends HyperdriveServiceCommand {
         return p.resolve(dir)
       }
     },
-    HyperdriveServiceCommand.keyArg({
+    DDriveServiceCommand.keyArg({
       description: 'The drive key.',
       required: false
     })
   ]
   static flags = {
     'no-seed': flags.boolean({
-      description: 'Do not seed the new drive on the Hyperdrive network',
+      description: 'Do not seed the new drive on the DDrive network',
       default: false
     }),
     'watch': flags.boolean({

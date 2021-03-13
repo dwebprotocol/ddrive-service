@@ -2,7 +2,7 @@ const p = require('path')
 const fs = require('fs').promises
 
 const test = require('tape')
-const hypercoreCrypto = require('hypercore-crypto')
+const ddatabaseCrypto = require('@ddatabase/crypto')
 const { create, createOne } = require('./helpers/create')
 
 test('can start/stop the fuse service', async t => {
@@ -85,7 +85,7 @@ test('can get mounted drive info', async t => {
   const { fuseClient, fuseMnt, cleanup } = await createOne()
 
   const drive = await fuseClient.mount(p.join(fuseMnt.path, 'test-drive'))
-  const badKey = hypercoreCrypto.randomBytes(32)
+  const badKey = ddatabaseCrypto.randomBytes(32)
   await fuseClient.mount(p.join(fuseMnt.path, 'nonwritable'), {
     key: badKey
   })
@@ -182,7 +182,7 @@ test('can seed a mounted drive', async t => {
     await client.mount(sharedDrivePath, { key: sharedDriveKey })
     await client.mount(unsharedDrivePath, { key: unsharedDriveKey })
 
-    // Both drives are read-only, so hyperdrive will automatically do a swarm lookup.
+    // Both drives are read-only, so ddrive will automatically do a swarm lookup.
     const sharedContents = await fs.readdir(sharedDrivePath)
     const unsharedContents = await fs.readdir(unsharedDrivePath)
 

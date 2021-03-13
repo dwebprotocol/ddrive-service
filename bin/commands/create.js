@@ -2,9 +2,9 @@ const p = require('path')
 const ora = require('ora')
 const { flags } = require('@oclif/command')
 
-const HyperdriveServiceCommand = require('../../lib/cli')
+const DDriveServiceCommand = require('../../lib/cli')
 
-class CreateCommand extends HyperdriveServiceCommand {
+class CreateCommand extends DDriveServiceCommand {
   static usage = 'create [path]'
   static description = 'Create a new drive mounted at the specified path'
   static args = [
@@ -16,7 +16,7 @@ class CreateCommand extends HyperdriveServiceCommand {
   ]
   static flags = {
     'no-seed': flags.boolean({
-      description: 'Do not seed the new drive on the Hyperdrive network',
+      description: 'Do not seed the new drive on the DDrive network',
       default: false
     })
   }
@@ -29,12 +29,12 @@ class CreateCommand extends HyperdriveServiceCommand {
     const spinner = ora('Creating your new drive (if seeding, this might take a while to announce)...')
     try {
       const drive = await this.client.mount(args.path)
-      const hsClient = this.client.hyperspaceClient
+      const dhClient = this.client.dhubClient
 
       if (!flags['no-seed']) {
-        await hsClient.network.configure(drive.discoveryKey, { announce: true, lookup: true, remember: true}) 
+        await dhClient.network.configure(drive.discoveryKey, { announce: true, lookup: true, remember: true}) 
       }
-      const network = await hsClient.network.status(drive.discoveryKey)
+      const network = await dhClient.network.status(drive.discoveryKey)
       await drive.close()
 
       const seeding = !!(network && network.announce)
@@ -45,7 +45,7 @@ class CreateCommand extends HyperdriveServiceCommand {
       console.log(`  Seeding: ${seeding}`)
       if (!seeding) {
         console.log()
-        console.log(`This drive not being announced by default. To announce it on the DHT, run \`hyperdrive seed ${args.path}\``)
+        console.log(`This drive not being announced by default. To announce it on the dWeb DHT, run \`ddrive seed ${args.path}\``)
       }
     } catch (err) {
       spinner.fail('Could not create the drive:')

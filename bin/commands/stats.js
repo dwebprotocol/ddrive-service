@@ -2,9 +2,9 @@ const p = require('path')
 const fs = require('fs').promises
 const { flags } = require('@oclif/command')
 
-const HyperdriveServiceCommand = require('../../lib/cli')
+const DDriveServiceCommand = require('../../lib/cli')
 
-class StatsCommand extends HyperdriveServiceCommand {
+class StatsCommand extends DDriveServiceCommand {
   static usage = 'stats [path]'
   static description = 'Get the networking stats for the drive mounted at a path.'
   static args = [
@@ -15,7 +15,7 @@ class StatsCommand extends HyperdriveServiceCommand {
     }
   ]
   static flags = {
-    key: HyperdriveServiceCommand.keyFlag({
+    key: DDriveServiceCommand.keyFlag({
       required: false,
       description: 'A drive key (will override the path argument)'
     }),

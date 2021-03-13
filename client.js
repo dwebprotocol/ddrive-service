@@ -1,18 +1,18 @@
 const p = require('path')
 const isOptions = require('is-options')
-const hyperdrive = require('hyperdrive')
-const HyperspaceClient = require('hyperspace/client')
+const ddrive = require('ddrive')
+const DHubClient = require('@dhub/client')
 
 const { loadConfig } = require('./lib/config')
 const importDirectory = require('./lib/cli/import')
 const exportDrive = require('./lib/cli/export')
 
-module.exports = class HyperdriveServiceClient {
+module.exports = class DDriveServiceClient {
   constructor (opts = {}) {
     this.key = opts.key
     this.mnt = opts.mnt
 
-    this.hyperspaceClient = opts.client || new HyperspaceClient(opts)
+    this.dhubClient = opts.client || new DHubClient(opts)
     this._store = null
     this._rootDrive = null
   }
@@ -24,9 +24,9 @@ module.exports = class HyperdriveServiceClient {
       if (config.rootDriveKey) this.key = Buffer.from(config.rootDriveKey, 'hex')
       if (config.mnt) this.mnt = config.mnt
     }
-    if (!this.key) throw new Error('HyperdriveServiceClient was not given a root drive key.')
-    if (!this.mnt) throw new Error('HyperdriveServiceClient was not given a root mountpoint.')
-    this._store = this.hyperspaceClient.corestore()
+    if (!this.key) throw new Error('DDriveServiceClient was not given a root drive key.')
+    if (!this.mnt) throw new Error('DDriveServiceClient was not given a root mountpoint.')
+    this._store = this.dhubClient.basestore()
     this._rootDrive = await this._createDrive({ key: this.key })
   }
 
@@ -37,7 +37,7 @@ module.exports = class HyperdriveServiceClient {
   }
 
   async _createDrive (opts = {}) {
-    var drive = hyperdrive(this._store, opts && opts.key, {
+    var drive = ddrive(this._store, opts && opts.key, {
       ...opts,
       extension: false
     }).promises
@@ -65,7 +65,7 @@ module.exports = class HyperdriveServiceClient {
       this._rootDrive.drive.stat(noopPath, { trie: true }, (err, stat, trie, _, __, mountPath) => {
         if (err && err.errno !== 2) return reject(err)
         if (err && !trie) return resolve(null)
-        this.hyperspaceClient.network.status(trie.feed.discoveryKey, (err, networkConfig) => {
+        this.dhubClient.network.status(trie.feed.discoveryKey, (err, networkConfig) => {
           if (err) return reject(err)
           return resolve({
             key: trie.key,
@@ -103,8 +103,8 @@ module.exports = class HyperdriveServiceClient {
     const network = {}
     for (const [mountpoint, { metadata, content }] of allMounts) {
       network[mountpoint] = {
-        metadata: coreStats(metadata),
-        content: coreStats(content)
+        metadata: baseStats(metadata),
+        content: baseStats(content)
       }
     }
 
@@ -122,14 +122,14 @@ module.exports = class HyperdriveServiceClient {
       network
     }
 
-    function coreStats (core) {
+    function baseStats (base) {
       return {
-        key: core.key.toString('hex'),
-        discoveryKey: core.discoveryKey.toString('hex'),
-        writable: core.writable,
-        length: core.length,
-        byteLength: core.byteLength,
-        peers: core.peers.map(mapPeer)
+        key: base.key.toString('hex'),
+        discoveryKey: base.discoveryKey.toString('hex'),
+        writable: base.writable,
+        length: base.length,
+        byteLength: base.byteLength,
+        peers: base.peers.map(mapPeer)
       }
     }
 
@@ -153,7 +153,7 @@ module.exports = class HyperdriveServiceClient {
       discoveryKey = drive.discoveryKey
       await drive.close()
     }
-    return this.hyperspaceClient.network.configure(discoveryKey, { ...opts, announce: true, lookup: true })
+    return this.dhubClient.network.configure(discoveryKey, { ...opts, announce: true, lookup: true })
   }
 
   async unseed (path, opts = {}) {
@@ -168,7 +168,7 @@ module.exports = class HyperdriveServiceClient {
       discoveryKey = drive.discoveryKey
       await drive.close()
     }
-    return this.hyperspaceClient.network.configure(discoveryKey, { ...opts, announce: false, lookup: false })
+    return this.dhubClient.network.configure(discoveryKey, { ...opts, announce: false, lookup: false })
   }
 
   async import (key, dir, opts) {

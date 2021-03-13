@@ -1,9 +1,9 @@
 const p = require('path').posix
 const chalk = require('chalk')
 
-const HyperdriveServiceCommand = require('../../lib/cli')
+const DDriveServiceCommand = require('../../lib/cli')
 
-class UnmountCommand extends HyperdriveServiceCommand {
+class UnmountCommand extends DDriveServiceCommand {
   static usage = 'unmount [path]'
   static description = 'Unmount a drive. The root drive will be unmounted if a mountpoint is not specified.'
   static args = [

@@ -27,11 +27,11 @@ class SetupCommand extends Command {
   }
   async run () {
     try {
-      var hyperfuse = require('hyperdrive-fuse')
+      var dwebfuse = require('@ddrive/fuse')
     } catch (err) {}
 
-    if (!hyperfuse) {
-      console.warn('FUSE installation failed. You will be unable to mount your hyperdrives.')
+    if (!dwebfuse) {
+      console.warn('FUSE installation failed. You will be unable to mount your dDrives.')
       return
     }
     const { flags } = this.parse(SetupCommand)
@@ -40,8 +40,8 @@ class SetupCommand extends Command {
     try {
       await configureFuse()
       console.log('FUSE successfully configured:')
-      console.log('  * Your root drive will be mounted at ~/Hyperdrive when the daemon is next started.')
-      console.log('  * If your mountpoint ever becomes unresponsive, try running `hyperdrive force-unmount`.')
+      console.log('  * Your root drive will be mounted at ~/DDrive when the daemon is next started.')
+      console.log('  * If your mountpoint ever becomes unresponsive, try running `ddrive force-unmount`.')
     } catch (err) {
       console.error('Could not configure the FUSE module:')
       console.error(err)
@@ -49,7 +49,7 @@ class SetupCommand extends Command {
 
     async function configureFuse (cb) {
       const configured = await new Promise((resolve, reject) => {
-        hyperfuse.isConfigured((err, fuseConfigured) => {
+        dwebfuse.isConfigured((err, fuseConfigured) => {
           if (err) return reject(err)
           return resolve(fuseConfigured)
         })

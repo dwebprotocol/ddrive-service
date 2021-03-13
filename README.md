@@ -99,8 +99,8 @@ The info takes the form:
   discoveryKey: Buffer, // The drive's discovery key.
   writable: boolean, // true if the drive is writable.
   mountPath: string, // The path of the enclosing mountpoint.
-  announce: boolean, // true if the drive is currently being announced on the DHT.
-  lookup: boolean    // true if the drive is currently being looked up on the DHT.
+  announce: boolean, // true if the drive is currently being announced on the dWeb DHT.
+  lookup: boolean    // true if the drive is currently being looked up on the dWeb DHT.
 }
 ```
 
