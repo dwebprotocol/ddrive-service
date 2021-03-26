@@ -1,6 +1,6 @@
 {
   "name": "@dhub/ddrive",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A CLI for managing dDrives over FUSE.",
   "main": "index.js",
   "bin": {
@@ -30,7 +30,7 @@
     "ddrive": "^5.0.0",
     "@ddrive/network-heuristics": "^1.0.0",
     "@ddrive/schemas": "^1.0.0",
-    "dhub": "^1.0.0",
+    "dhub": "^1.0.6",
     "is-options": "^1.0.1",
     "mirror-folder": "^3.1.0",
     "nanoresource-promise": "^1.2.2",
